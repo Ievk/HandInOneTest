@@ -17,13 +17,15 @@ public class TicketMachine
     private int balance;
     // The total amount of money collected by this machine.
     private int total;
+    private String venue;
 
     /**
      * Create a machine that issues tickets of the given price.
      */
-    public TicketMachine(int cost)
+    public TicketMachine(String venue, int price)
     {
-        price = cost;
+        this.venue = venue;
+        this.price = price;
         balance = 0;
         total = 0;
     }
@@ -65,25 +67,25 @@ public class TicketMachine
      * reduce the current balance by the ticket price. Print
      * an error message if more money is required.
      */
-    public void printTicket()
+    public Ticket printTicket()
     {
+
         if(balance >= price) {
+
+            Ticket ticket = new Ticket(venue, price);
             // Simulate the printing of a ticket.
-            System.out.println("##################");
-            System.out.println("# The BlueJ Line");
-            System.out.println("# Ticket");
-            System.out.println("# " + price + " cents.");
-            System.out.println("##################");
-            System.out.println();
 
             // Update the total collected with the price.
             total = total + price;
             // Reduce the balance by the price.
             balance = balance - price;
+
+            return ticket;
         }
         else {
             System.out.println("You must insert at least: " +
                                (price - balance) + " more cents.");
+            return null;
                     
         }
     }
@@ -101,10 +103,11 @@ public class TicketMachine
     }
 
     public static void main(String[] args) {
-        TicketMachine machine = new TicketMachine(10);
-        machine.insertMoney(25);
-        machine.printTicket();        
-        machine.printTicket();        
-        machine.printTicket();        
+       //Used for test
+        Ticket ticket;
+        TicketMachine machine;
+        machine = new TicketMachine("Le Geai Bleu", 800);
+        machine.insertMoney(1200);
+        ticket = machine.printTicket();
     }
 }
