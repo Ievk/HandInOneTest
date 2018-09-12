@@ -83,10 +83,42 @@ public class TicketMachine
             return ticket;
         }
         else {
+
+            Ticket ticketNotValid = new Ticket(venue, price,-1);
             System.out.println("You must insert at least: " +
                                (price - balance) + " more cents.");
-            return null;
+            return ticketNotValid;
                     
+        }
+    }
+
+    public Ticket printMultiRideTicket(int numRides)
+    {
+        if(numRides>=1) {
+            int totalTicketPrice = numRides * price;
+            // check if ennough money has been inserted
+            if (balance >= totalTicketPrice) {
+
+                Ticket ticket = new Ticket(venue, price, numRides);
+
+                //this total is the grand total of the sales for the machine
+                total = total + totalTicketPrice;
+
+                balance = balance - totalTicketPrice;
+
+                return ticket;
+            } else {
+                Ticket ticketNotValid = new Ticket(venue, price,-1);
+
+                System.out.println("You must insert at least: " +
+                        (totalTicketPrice - balance) + " more cents.");
+
+                return ticketNotValid;
+            }
+        }
+        else {
+            System.out.println("Cannot issue a multi-ride ticket for fewer than 1 rides!");
+            return null;
         }
     }
 
@@ -106,8 +138,18 @@ public class TicketMachine
        //Used for test
         Ticket ticket;
         TicketMachine machine;
-        machine = new TicketMachine("Le Geai Bleu", 800);
-        machine.insertMoney(1200);
-        ticket = machine.printTicket();
+        machine = new TicketMachine("Le Geai Bleu", 20);
+        machine.insertMoney(500);
+      //  ticket = machine.printTicket();
+        ticket = machine.printMultiRideTicket(10);
+        System.out.println(ticket);
+        System.out.println(machine.printMultiRideTicket(10));
+        System.out.println(machine.printMultiRideTicket(10));
+        System.out.println(machine.printMultiRideTicket(2));
+        System.out.println(machine.printMultiRideTicket(-1));
+
+        boolean result = ticket.isValid();
+        boolean wasUsed = ticket.use();
+        boolean resultAfterUse =  ticket.isValid();
     }
 }
